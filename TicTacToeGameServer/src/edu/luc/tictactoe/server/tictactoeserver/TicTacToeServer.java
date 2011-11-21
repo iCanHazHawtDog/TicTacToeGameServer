@@ -29,7 +29,6 @@ public class TicTacToeServer extends Thread{
 				new TicTacToeServerThreadHandling(serverSocket.accept()).start();
 			}
 			
-			
 		}catch(IOException e){
 			e.printStackTrace();
 			this.interrupt();
