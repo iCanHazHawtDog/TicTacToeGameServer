@@ -9,6 +9,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import edu.luc.tictactoe.server.businesslogic.NPlayer;
+import edu.luc.tictactoe.server.businesslogic.PlayerQeue;
 import edu.server.businesslogic.comshandling.TicTacToeServerComsHandling;
 
 /***
@@ -41,6 +43,9 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    
 		    TicTacToeServerComsHandling coms= new TicTacToeServerComsHandling();
 		    output.println((outputline=coms.process(inputline)));
+		    
+		    NPlayer player = new NPlayer(null,input,output,socket);
+		    PlayerQeue.addPlayer(player);
 		    
 		    while((inputline=input.readLine())!=null){
 		    	if(inputline.equals("bye")){
