@@ -1,5 +1,9 @@
 package edu.server.businesslogic.comshandling;
 
+import java.io.PrintWriter;
+
+import edu.luc.tictactoe.server.businesslogic.NPlayer;
+
 /***
  * 
  * @author pstasiuk
@@ -10,28 +14,37 @@ package edu.server.businesslogic.comshandling;
  *
  */
 public class TicTacToeServerComsHandling {
-	private final int CREDENTAILS=0;
-	private final int GAMEPLAY=1;
-	private final int GAMEOVER=2;
+	private final int WAITING=0;
+	private final int CREDENTAILS=1;
+	private final int GAMEPLAY=2;
+	private final int GAMEOVER=3;
+	private NPlayer player;
 	private int state=0;
+	private boolean verbose=true;
 	
 	
 	
 	
-	public TicTacToeServerComsHandling(){
-		
+	public TicTacToeServerComsHandling(NPlayer player){
+		this.player=player;
 	}
 	
 	public String process(String message){
-		String returnMessage=null;
+		String returnMessage = null;
+		if(state==WAITING){
+			returnMessage="go";
+			state=CREDENTAILS;
+		}		
 		if(state==CREDENTAILS){
 			if(message==null){
-				returnMessage="go";
-			}if(message.contains("name:")){
-				
+				return returnMessage;
 			}
-			
-			
+			if(message.contains("name:")){
+				print("Setting the players name: "+message.substring(5,message.length()));
+				player.setName(message.substring(5,message.length()));
+				returnMessage="nameSet";
+			}
+	
 		}if(state==GAMEPLAY){
 			
 			
@@ -39,20 +52,14 @@ public class TicTacToeServerComsHandling {
 			
 			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 		return returnMessage;
+	}
+	
+	private void print(String message){
+		if(verbose){
+			System.out.println(message);
+		}
 	}
 	
 	

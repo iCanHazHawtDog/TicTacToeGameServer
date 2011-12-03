@@ -1,0 +1,48 @@
+package edu.luc.tictactoe.server.businesslogic;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+/**
+ * 
+ * 
+ * @author Paul Stasiuk
+ * 
+ * The class that pairs players and starts a new game based on the players that have been paired
+ * 
+ * Created on 12/1/2011
+ */
+
+public class PairMachine {
+	private boolean verbose=true;
+	
+	public void runMachine(){
+		int delay = 2000;   // delay for 5 sec.
+		int period = 1000;  // repeat every sec.
+		Timer timer = new Timer();
+
+		timer.scheduleAtFixedRate(new TimerTask(){
+			@Override
+			public void run() {
+				if(PlayerQueue.playersWaiting()>=2){
+					print("More than two players, starting a game..");
+					GamePlayThread gamePlayThread= new GamePlayThread(PlayerQueue.removeTwo());
+					new Thread(gamePlayThread).start();
+					
+				}else{
+					print("Less than two players, no need to start a game...");
+				}
+			}
+		}, delay, period);
+		
+	}
+	
+	
+	private void print(String message){
+		if(verbose){
+			System.out.println(message);
+		}
+	}
+	
+
+}

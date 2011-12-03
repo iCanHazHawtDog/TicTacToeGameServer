@@ -17,6 +17,7 @@ import edu.luc.tictactoe.server.threadhandling.TicTacToeServerThreadHandling;
 
 public class TicTacToeServer extends Thread{
 	final int PORT=6212;
+	private boolean verbose=true;
 	
 	
 	@Override

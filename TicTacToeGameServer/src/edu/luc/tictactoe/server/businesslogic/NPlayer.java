@@ -43,6 +43,9 @@ public class NPlayer {
 		return output;
 	}
 	
+	public void setName(String name){
+		this.name=name;
+	}
 	
 	
 }

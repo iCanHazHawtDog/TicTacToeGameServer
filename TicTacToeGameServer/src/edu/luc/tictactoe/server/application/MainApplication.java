@@ -1,5 +1,8 @@
 package edu.luc.tictactoe.server.application;
 
+import edu.luc.tictactoe.server.businesslogic.PairMachine;
+import edu.luc.tictactoe.server.tictactoeserver.TicTacToeServer;
+
 
 /***
  * 
@@ -15,11 +18,18 @@ package edu.luc.tictactoe.server.application;
 public class MainApplication {
 	private static Thread serverStarter;
 	private static Thread mainThread;
+	private static boolean verbose=true;
 
 	public static void main(String[] args){
-		
-		
-		
+		print("Starting the server!");
+		TicTacToeServer server= new TicTacToeServer();
+		new Thread(server).start();
+		print("Server started!");
+		print("Starting the PairMachine!");
+		PairMachine pairMachine= new PairMachine();
+		print("Running the PairMachine!");
+		pairMachine.runMachine();
+		print("PairMachine running!");
 	}
 	
 	
@@ -62,6 +72,12 @@ public class MainApplication {
 	   mainThread= Thread.currentThread();
 	   System.out.close();
 	   System.err.close();
+	}
+	
+	private static void print(String message){
+		if(verbose){
+			System.out.println(message);
+		}
 	}
 	
 

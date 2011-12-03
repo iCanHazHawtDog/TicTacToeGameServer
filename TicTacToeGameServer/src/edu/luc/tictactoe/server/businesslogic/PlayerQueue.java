@@ -3,7 +3,7 @@ package edu.luc.tictactoe.server.businesslogic;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class PlayerQeue {
+public class PlayerQueue {
 	boolean isEmpty;
 	//Create a queue of NPlayers..
 	public static Queue<NPlayer> playerQueue = new LinkedList<NPlayer>();
