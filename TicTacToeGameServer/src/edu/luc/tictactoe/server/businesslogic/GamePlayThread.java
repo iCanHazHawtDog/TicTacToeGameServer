@@ -46,7 +46,11 @@ public class GamePlayThread extends Thread{
 			
 			while((player1Inputline=player1Input.readLine())!=null && 
 					(player2Inputline=player2Input.readLine())!=null ){
-				
+				if(!(player1Inputline==null)){
+					print(player1Inputline);
+				}if(!(player2Inputline==null)){
+					print(player2Inputline);
+				}
 				
 			}
 			

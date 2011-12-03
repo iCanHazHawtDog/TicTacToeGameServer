@@ -14,7 +14,7 @@ import java.util.TimerTask;
  */
 
 public class PairMachine {
-	private boolean verbose=true;
+	private boolean verbose=false;
 	
 	public void runMachine(){
 		int delay = 2000;   // delay for 5 sec.
