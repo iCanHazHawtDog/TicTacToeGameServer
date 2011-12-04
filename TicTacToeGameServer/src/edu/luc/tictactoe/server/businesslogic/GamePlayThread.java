@@ -20,6 +20,8 @@ public class GamePlayThread extends Thread{
 	private NPlayer player1;
 	private NPlayer player2;
 	private boolean verbose=true;
+	public boolean player1Turn=false;
+	private boolean keepPlaying=true;
 	
 	public GamePlayThread(NPlayer[] players){
 		player1=players[0];
@@ -40,7 +42,7 @@ public class GamePlayThread extends Thread{
 			
 			TicTacToePlay game = new TicTacToePlay(GameType.WithAnotherPersonInSameComputer);
 			
-			GamePlayComsHandling coms= new GamePlayComsHandling(game, player1, player2);
+			GamePlayComsHandling coms= new GamePlayComsHandling(game, player1, player2, this);
 			
 			//Set the two players names locally
 			game.setPlayerOne(player1.getName());
@@ -54,26 +56,43 @@ public class GamePlayThread extends Thread{
 			if(game.whoseTurn().getName().equals(player1.getName())){
 				player1Output.println("yourTurn");
 				player2Output.println("player1Turn");
+				player1Turn=true;
 			}else{
 				player2Output.println("yourTurn");
 				player1Output.println("player2Turn");
+				player1Turn=false;
 			}
 			
-			
-			while((player1Inputline=player1Input.readLine())!=null && 
-					(player2Inputline=player2Input.readLine())!=null ){
-				//If either player exits the game at any time, we go ahead and make sure that both players exit ina  timepley fashion then break out and close evreything up
-				if(player1Inputline.equals("bye")|| player2Inputline.equals("bye")){
-					player1Output.println("bye");
-					player2Output.println("bye");
-					break;
-				}if(!(player1Inputline==null)){
-					print("From player1:"+player1Inputline);
-					player1Outputline=coms.process(player1Inputline, WhosTurn.player1);
-				}if(!(player2Inputline==null)){
-					print("From player2:"+player2Inputline);
+			while(keepPlaying){
+				if(player1Turn){
+					while((player1Inputline=player1Input.readLine())!=null && player1Turn){
+						if(player1Inputline.equals("bye")){
+							player1Output.println("bye");
+							player2Output.println("bye");
+							keepPlaying=false;
+							break;
+						}
+						player1Turn=false;
+						print("From player1:"+player1Inputline);
+						player1Outputline=coms.process(player1Inputline, WhosTurn.player1);
+						break;
+					}
+				}else{
+					while((player2Inputline=player2Input.readLine())!=null && !player1Turn){
+						if(player2Inputline.equals("bye")){
+							player1Output.println("bye");
+							player2Output.println("bye");
+							keepPlaying=false;
+							break;
+						}
+						player1Turn=true;
+						print("From player2:"+player2Inputline);
+						player1Outputline=coms.process(player2Inputline, WhosTurn.player2);
+						break;
+					}
 				}
 			}
+			
 			
 			player1Output.close();
 			player2Output.close();

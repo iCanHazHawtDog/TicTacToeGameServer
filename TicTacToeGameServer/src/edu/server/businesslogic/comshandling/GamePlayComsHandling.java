@@ -3,6 +3,7 @@ package edu.server.businesslogic.comshandling;
 import edu.luc.tictactoe.businesslogic.IPlayer;
 import edu.luc.tictactoe.businesslogic.implementation.SelectionResult;
 import edu.luc.tictactoe.businesslogic.implementation.TicTacToePlay;
+import edu.luc.tictactoe.server.businesslogic.GamePlayThread;
 import edu.luc.tictactoe.server.businesslogic.NPlayer;
 import edu.luc.tictactoe.server.businesslogic.PositionInterpretor;
 import edu.luc.tictactoe.server.businesslogic.WhosTurn;
@@ -28,17 +29,18 @@ public class GamePlayComsHandling {
 	private boolean player1Coms=false;
 	private boolean player2Coms=false;
 	private IPlayer previousPlayer;
+	private GamePlayThread gameThread;
 	
-	public GamePlayComsHandling(TicTacToePlay game, NPlayer player1, NPlayer player2){
+	public GamePlayComsHandling(TicTacToePlay game, NPlayer player1, NPlayer player2,GamePlayThread gameThread){
 		this.game=game;
 		this.player1= player1;
 		this.player2= player2;
+		this.gameThread=gameThread;
 		
 	}
 	
 	public String process(String message, WhosTurn whosTurn){
 		String returnMessage = null;
-		
 		
 		if(state==GAMEPLAY){
 			if(message.contains("setPos:")){
@@ -49,8 +51,7 @@ public class GamePlayComsHandling {
 				
 				PositionInterpretor pos= new PositionInterpretor(position);
 				if(whosTurn==WhosTurn.player1){
-					print("Player 1 attempting to set the position:"+position);
-					
+					print(player1.getName()+ "is attempting to set the position:"+position);
 					SelectionResult result= game.selectPosition(pos.x, pos.y);
 					
 					if(result==SelectionResult.Continue){
@@ -61,24 +62,38 @@ public class GamePlayComsHandling {
 						print("There was a draw!");
 						player1.getOutput().println("draw");
 						player2.getOutput().println("draw");
+						player1.getOutput().println("replay");
+						if(!(gameThread.player1Turn)){
+							gameThread.player1Turn=true;
+						}
 						game.resetBoard();
+						state=GAMEOVER;
 						
 					}if(result==SelectionResult.Win){
 						print("There was a win!");
 						if(player1.getName().equals(previousPlayer.getName())){
 							print("Player 1 Won!");
 							player1.getOutput().println("player1win");
-							player2.getOutput().println("player2win");
+							player2.getOutput().println("player1win");
+							player1.getOutput().println("replay");
+							if(!(gameThread.player1Turn)){
+								gameThread.player1Turn=true;
+							}
 						}if(player2.getName().equals(previousPlayer.getName())){
 							print("Player 2 Won!");
 							player1.getOutput().println("player2win");
 							player2.getOutput().println("player2win");
+							player2 .getOutput().println("replay");
+							if(gameThread.player1Turn){
+								gameThread.player1Turn=false;
+							}
 						}
+						state=GAMEOVER;
 						game.resetBoard();
 					}
 					
 				}if(whosTurn==WhosTurn.player2){
-					print("Player 2 attempting to set the position:"+position);
+					print(player2.getName()+ "is attempting to set the position:"+position);
 					
 					SelectionResult result= game.selectPosition(pos.x, pos.y);
 					
@@ -90,19 +105,33 @@ public class GamePlayComsHandling {
 						print("There was a draw!");
 						player1.getOutput().println("draw");
 						player2.getOutput().println("draw");
+						player1.getOutput().println("replay");
+						if(!(gameThread.player1Turn)){
+							gameThread.player1Turn=true;
+						}
 						game.resetBoard();
+						state=GAMEOVER;
 						
 					}if(result==SelectionResult.Win){
 						print("There was a win!");
 						if(player1.getName().equals(previousPlayer.getName())){
 							print("Player 1 Won!");
 							player1.getOutput().println("player1win");
-							player2.getOutput().println("player2win");
+							player2.getOutput().println("player1win");
+							player1.getOutput().println("replay");
+							if(!(gameThread.player1Turn)){
+								gameThread.player1Turn=true;
+							}
 						}if(player2.getName().equals(previousPlayer.getName())){
 							print("Player 2 Won!");
 							player1.getOutput().println("player2win");
 							player2.getOutput().println("player2win");
+							player2.getOutput().println("replay");
+							if(gameThread.player1Turn){
+								gameThread.player1Turn=false;
+							}
 						}
+						state=GAMEOVER;
 						game.resetBoard();
 					}
 					
@@ -113,7 +142,37 @@ public class GamePlayComsHandling {
 			
 			
 		}if(state==GAMEOVER){
-			//Put everything in the database, and clean everything up
+			if(message.equals("replay")){
+				if(whosTurn==WhosTurn.player1){
+					print("Starting a new game..");
+					game.randomStart();
+					if(player1.getName().equals(game.whoseTurn().getName())){
+						player1.getOutput().println("yourTurn");
+						player2.getOutput().println("player1Turn");
+						gameThread.player1Turn=true;
+					}else{
+						player1.getOutput().println("player2Turn");
+						player2.getOutput().println("yourTurn");
+						gameThread.player1Turn=false;
+						
+					}	
+					state=GAMEPLAY;
+				}if(whosTurn==WhosTurn.player2){
+					print("Starting a new game..");
+					game.randomStart();
+					if(player1.getName().equals(game.whoseTurn().getName())){
+						player1.getOutput().println("yourTurn");
+						player2.getOutput().println("player1Turn");
+						gameThread.player1Turn=true;
+					}else{
+						player1.getOutput().println("player2Turn");
+						player2.getOutput().println("yourTurn");
+						gameThread.player1Turn=false;
+					}	
+					state=GAMEPLAY;		
+				}
+				
+			}
 			
 		}if(state==WAITFORPLAYER){
 			
