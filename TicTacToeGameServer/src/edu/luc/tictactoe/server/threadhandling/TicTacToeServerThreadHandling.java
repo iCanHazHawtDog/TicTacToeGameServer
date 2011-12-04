@@ -53,6 +53,7 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    while((inputline=input.readLine())!=null){
 		    	if(inputline.equals("waitingToPlay")){
 		    		print("Player is waiting to play. Interrupting this thread and breaking out..");
+		    		 PlayerQueue.addPlayer(player);
 		    		this.interrupt();
 		    		break;
 		    	}
@@ -62,7 +63,7 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    	print("From Server: "+ outputline);
 		    }
 		    
-		    PlayerQueue.addPlayer(player);
+		   
 		     
 		}catch(IOException e){
 			e.printStackTrace();
