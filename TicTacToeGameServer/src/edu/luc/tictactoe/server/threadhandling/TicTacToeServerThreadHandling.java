@@ -31,6 +31,7 @@ public class TicTacToeServerThreadHandling extends Thread {
 	public TicTacToeServerThreadHandling(Socket socket){
 		this.socket=socket;
 		
+		
 	}
 	
 	@Override
@@ -50,7 +51,9 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    PlayerQueue.addPlayer(player);
 		    
 		    while((inputline=input.readLine())!=null){
-		    	if(inputline.equals("bye")){
+		    	if(inputline.equals("waitingToPlay")){
+		    		print("Player is waiting to play. Interrupting this thread and breaking out..");
+		    		this.interrupt();
 		    		break;
 		    	}
 		    	
@@ -58,11 +61,7 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    	output.println((outputline=coms.process(inputline)));
 		    	print("From Server: "+ outputline);
 		    }
-		    
-		    output.close();
-		    input.close();
-		    socket.close();
-		   
+		     
 		}catch(IOException e){
 			e.printStackTrace();
 			this.interrupt();
