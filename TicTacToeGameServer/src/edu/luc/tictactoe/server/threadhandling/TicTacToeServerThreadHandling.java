@@ -48,7 +48,7 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    print(inputline);
 		    
 		    print("Player connected! Adding to player Queue!");
-		    PlayerQueue.addPlayer(player);
+		    
 		    
 		    while((inputline=input.readLine())!=null){
 		    	if(inputline.equals("waitingToPlay")){
@@ -61,6 +61,8 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    	output.println((outputline=coms.process(inputline)));
 		    	print("From Server: "+ outputline);
 		    }
+		    
+		    PlayerQueue.addPlayer(player);
 		     
 		}catch(IOException e){
 			e.printStackTrace();

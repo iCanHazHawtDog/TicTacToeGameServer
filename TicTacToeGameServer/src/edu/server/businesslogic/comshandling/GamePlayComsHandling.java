@@ -34,6 +34,7 @@ public class GamePlayComsHandling {
 		this.player2= player2;
 		
 	}
+	
 	public String process(String message, WhosTurn whosTurn){
 		String returnMessage = null;
 		if(state==GAMEPLAY){
@@ -48,21 +49,55 @@ public class GamePlayComsHandling {
 					if(result==SelectionResult.Continue){
 						player1.getOutput().println("posSet");
 						player2.getOutput().println("setPos:"+position);
-						
-						
-						
+	
 					}if(result==SelectionResult.Draw){
-						
+						print("There was a draw!");
+						player1.getOutput().println("draw");
+						player2.getOutput().println("draw");
+						game.resetBoard();
 						
 					}if(result==SelectionResult.Win){
-						
+						print("There was a win!");
+						if(player1.getName().equals(game.whoseTurn().getName())){
+							print("Player 1 Won!");
+							player1.getOutput().println("player1win");
+							player2.getOutput().println("player2win");
+						}if(player2.getName().equals(game.whoseTurn().getName())){
+							print("Player 2 Won!");
+							player1.getOutput().println("player2win");
+							player2.getOutput().println("player2win");
+						}
+						game.resetBoard();
 					}
-					
-						
 					
 				}if(whosTurn==WhosTurn.player2){
 					print("Player 2 attempting to set the position:"+position);
-					game.selectPosition(pos.x, pos.y);
+					
+					SelectionResult result= game.selectPosition(pos.x, pos.y);
+					
+					if(result==SelectionResult.Continue){
+						player1.getOutput().println("setPos:"+position);
+						player2.getOutput().println("posSet");
+	
+					}if(result==SelectionResult.Draw){
+						print("There was a draw!");
+						player1.getOutput().println("draw");
+						player2.getOutput().println("draw");
+						game.resetBoard();
+						
+					}if(result==SelectionResult.Win){
+						print("There was a win!");
+						if(player1.getName().equals(game.whoseTurn().getName())){
+							print("Player 1 Won!");
+							player1.getOutput().println("player1win");
+							player2.getOutput().println("player2win");
+						}if(player2.getName().equals(game.whoseTurn().getName())){
+							print("Player 2 Won!");
+							player1.getOutput().println("player2win");
+							player2.getOutput().println("player2win");
+						}
+						game.resetBoard();
+					}
 					
 					
 				}
