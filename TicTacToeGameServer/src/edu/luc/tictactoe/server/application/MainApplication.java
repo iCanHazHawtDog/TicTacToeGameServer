@@ -21,6 +21,26 @@ public class MainApplication {
 	private static boolean verbose=true;
 
 	public static void main(String[] args){
+		
+		if(args[0].equals("verbose")){
+			//Do whatever we would do if we were starting the server up verbose in here..
+			runTheServer();
+			
+		}if(args[0].equals("dameon")){
+			verbose=false;
+			serverStarter= new Thread(){
+				public void run(){
+					runTheServer();
+				}
+			};
+			serverStarter.start();
+			daemonize();
+			addDaemonShutdownHook();	
+		}
+		
+	}
+	
+	private static void runTheServer(){
 		print("Starting the server!");
 		TicTacToeServer server= new TicTacToeServer();
 		new Thread(server).start();
@@ -30,9 +50,8 @@ public class MainApplication {
 		print("Running the PairMachine!");
 		pairMachine.runMachine();
 		print("PairMachine running!");
+		
 	}
-	
-	
 	
 	/***
 	 * Adds a shutdown hook to the application.
