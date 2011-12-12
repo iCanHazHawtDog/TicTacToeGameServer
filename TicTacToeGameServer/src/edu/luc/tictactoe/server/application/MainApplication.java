@@ -9,17 +9,22 @@ import edu.luc.tictactoe.server.tictactoeserver.TicTacToeServer;
  * @author Paul Stasiuk
  * Date Created: 11/14/2011
  * 
- * The MainApplication class spawns all of the subsequent threads. It is also what actually when the application is
+ * The MainApplication class spawns all of the subsequent threads. It is also what is actually run when the application is
  * called.
  * 
  */
-
 
 public class MainApplication {
 	private static Thread serverStarter;
 	private static Thread mainThread;
 	private static boolean verbose=true;
 
+	/**
+	 * Main method. Takes in arguments that allow the server code to be run as native dameon service if it is
+	 * invoked with a script that can record the PID of the service.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args){
 		
 		if(args[0].equals("verbose")){
@@ -40,6 +45,10 @@ public class MainApplication {
 		
 	}
 	
+	/**
+	 * Method that runs the server instance and starts it.
+	 * 
+	 */
 	private static void runTheServer(){
 		print("Starting the server!");
 		TicTacToeServer server= new TicTacToeServer();
@@ -93,6 +102,11 @@ public class MainApplication {
 	   System.err.close();
 	}
 	
+	/**
+	 * Method that prints to the console
+	 * 
+	 * @param message
+	 */
 	private static void print(String message){
 		if(verbose){
 			System.out.println(message);

@@ -9,6 +9,7 @@ import java.util.TimerTask;
  * @author Paul Stasiuk
  * 
  * The class that pairs players and starts a new game based on the players that have been paired
+ * Leverage java TimerTask to continuously check for a number of players in the Queue.
  * 
  * Created on 12/1/2011
  */
@@ -37,7 +38,10 @@ public class PairMachine {
 		
 	}
 	
-	
+	/**
+	 * Method that prints to the console
+	 * @param message
+	 */
 	private void print(String message){
 		if(verbose){
 			System.out.println(message);

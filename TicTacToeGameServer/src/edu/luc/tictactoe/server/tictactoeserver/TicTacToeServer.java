@@ -11,7 +11,10 @@ import edu.luc.tictactoe.server.threadhandling.TicTacToeServerThreadHandling;
  * 
  * The main server for TicTacToe. This server is spawned by the MainApplication. 
  * 
- * The server listens for an 
+ * The server listens for incoming connections, then spawns a new thread and hnads off the socket connection
+ * to the new thread.
+ * 
+ * Created 11/24/2011
  *
  */
 

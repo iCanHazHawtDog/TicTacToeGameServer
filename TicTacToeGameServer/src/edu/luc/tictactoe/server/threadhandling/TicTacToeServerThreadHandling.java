@@ -63,8 +63,7 @@ public class TicTacToeServerThreadHandling extends Thread {
 		    	print("From Server: "+ outputline);
 		    }
 		    
-		   
-		     
+		    
 		}catch(IOException e){
 			e.printStackTrace();
 			this.interrupt();
@@ -72,6 +71,11 @@ public class TicTacToeServerThreadHandling extends Thread {
 		
 	}
 	
+	/**
+	 * Prints a message to the console.
+	 * 
+	 * @param message
+	 */
 	private void print(String message){
 		if(verbose){
 			System.out.println(message);

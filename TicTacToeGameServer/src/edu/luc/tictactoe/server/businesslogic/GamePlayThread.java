@@ -22,7 +22,14 @@ public class GamePlayThread extends Thread{
 	private boolean verbose=true;
 	public boolean player1Turn=false;
 	private boolean keepPlaying=true;
+	PrintWriter player1Output;
+	PrintWriter player2Output;
 	
+	/**
+	 * Constructor for the GamePlayThread class.
+	 * 
+	 * @param players
+	 */
 	public GamePlayThread(NPlayer[] players){
 		player1=players[0];
 		player2=players[1];
@@ -31,8 +38,8 @@ public class GamePlayThread extends Thread{
 	@Override
 	public void run(){
 		try{
-			PrintWriter player1Output= player1.getOutput();
-			PrintWriter player2Output= player2.getOutput();
+			player1Output= player1.getOutput();
+			player2Output= player2.getOutput();
 			BufferedReader player1Input= player1.getInput();
 			BufferedReader player2Input= player2.getInput();
 			String player1Inputline=null;
@@ -101,13 +108,19 @@ public class GamePlayThread extends Thread{
 			this.interrupt();
 			
 		}catch(Exception e){
+			player1Output.println("bye");
+			player2Output.println("bye");
 			print("There was an error in the run method in the GamePlayThread class:"+e);
 			e.printStackTrace();
-			
 		}
 				
 	}
 	
+	/**
+	 * Method that prints to the console.
+	 * 
+	 * @param message
+	 */
 	private void print(String message){
 		if(verbose){
 			System.out.println(message);

@@ -31,6 +31,14 @@ public class GamePlayComsHandling {
 	private IPlayer previousPlayer;
 	private GamePlayThread gameThread;
 	
+	/**
+	 * Constructor for the GamePlayComsHandling class.
+	 * 
+	 * @param game
+	 * @param player1
+	 * @param player2
+	 * @param gameThread
+	 */
 	public GamePlayComsHandling(TicTacToePlay game, NPlayer player1, NPlayer player2,GamePlayThread gameThread){
 		this.game=game;
 		this.player1= player1;
@@ -39,6 +47,13 @@ public class GamePlayComsHandling {
 		
 	}
 	
+	/**
+	 * Method that processes all the of the messages that come from the client.
+	 * 
+	 * @param message
+	 * @param whosTurn
+	 * @return
+	 */
 	public String process(String message, WhosTurn whosTurn){
 		String returnMessage = null;
 		
@@ -181,6 +196,11 @@ public class GamePlayComsHandling {
 		return returnMessage;
 	}
 	
+	/**
+	 * Method that prints to the console.
+	 * 
+	 * @param message
+	 */
 	private void print(String message){
 		if(verbose){
 			System.out.println(message);

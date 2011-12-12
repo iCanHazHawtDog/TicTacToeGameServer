@@ -22,13 +22,22 @@ public class TicTacToeServerComsHandling {
 	private int state=0;
 	private boolean verbose=true;
 	
-	
-	
-	
+	/**
+	 * Constructor for the TicTacToeServerComsHandling.
+	 * 
+	 * @param player
+	 */
 	public TicTacToeServerComsHandling(NPlayer player){
 		this.player=player;
 	}
 	
+	/**
+	 * Method that processes whatever incoming messages are passed to it and returns
+	 * a string. 
+	 * 
+	 * @param message
+	 * @return
+	 */
 	public String process(String message){
 		String returnMessage = null;
 		if(state==WAITING){
@@ -56,6 +65,11 @@ public class TicTacToeServerComsHandling {
 		return returnMessage;
 	}
 	
+	/**
+	 * Method that prints a message to the console. 
+	 * 
+	 * @param message
+	 */
 	private void print(String message){
 		if(verbose){
 			System.out.println(message);
